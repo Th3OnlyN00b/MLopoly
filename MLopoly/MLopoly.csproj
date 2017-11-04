@@ -42,15 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Monopoly\Bank.cs" />
+    <Compile Include="Monopoly\Board.cs" />
     <Compile Include="Monopoly\ChanceSpace.cs" />
     <Compile Include="Monopoly\CommunityChestSpace.cs" />
     <Compile Include="Monopoly\ElectricCompanySpace.cs" />
     <Compile Include="Monopoly\FreeParkingSpace.cs" />
+    <Compile Include="Monopoly\Game.cs" />
     <Compile Include="Monopoly\GoSpace.cs" />
     <Compile Include="Monopoly\GoToJailSpace.cs" />
     <Compile Include="Monopoly\IncomeTaxSpace.cs" />
     <Compile Include="Monopoly\JailSpace.cs" />
     <Compile Include="Monopoly\LuxuryTaxSpace.cs" />
+    <Compile Include="Monopoly\Player.cs" />
     <Compile Include="Monopoly\PropertySpace.cs" />
     <Compile Include="Monopoly\RailroadSpace.cs" />
     <Compile Include="Monopoly\Space.cs" />
