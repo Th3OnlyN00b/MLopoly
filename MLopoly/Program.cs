@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace MLopoly {
     class Program {
         static void Main(string[] args) {
+            new BoardGUI();
         }
     }
 }
