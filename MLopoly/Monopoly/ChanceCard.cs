@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Monopoly {
-    public abstract class ChanceCard {
+    public abstract class ChanceCard { 
         public Board board;
         public ChanceCard(Board board) { this.board = board; }
         public abstract void Use(Player player);

@@ -63,7 +63,7 @@ namespace Monopoly {
                 //TODO offer to buy
                 //Player buys it
                 if (purchase) {
-                    Buy(player);
+                    Buy(curPlayer);
                     return 0;
                 }
                 //Auction needs to happen
@@ -74,8 +74,8 @@ namespace Monopoly {
             //if owned
             else {
                 //if not owned by player
-                if(owner != player) {
-                    ChargeRent(player, roll);
+                if(owner != curPlayer) {
+                    ChargeRent(curPlayer, roll);
                     return 0;
                 }
                 //if owned by player

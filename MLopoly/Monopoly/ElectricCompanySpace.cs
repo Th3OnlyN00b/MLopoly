@@ -3,7 +3,7 @@
 namespace Monopoly {
     public class ElectricCompanySpace : Buyable {
 
-        public int cost = 150;
+        public int price = 150;
         public int mortgage = 75;
         public Player owner;
         public bool isMortgaged = false;
@@ -14,8 +14,8 @@ namespace Monopoly {
         override public int Buy(Player player) {
             owner = player;
             owner.utilsOwned++;
-            owner.money = owner.money - cost;
-            return cost;
+            owner.money = owner.money - price;
+            return price;
         }
 
         override public int Mortgage() {
