@@ -11,7 +11,11 @@ namespace Monopoly {
         }
 
         public Space MovePlayer(Player player, int roll) {
-            player.position = (player.position + roll) % 40;
+            int pos = (player.position + roll);
+            if(pos >= 40) {
+                player.money = player.money + 200;
+            }
+            player.position = pos % 40;
             return Spaces[player.position];
         }
 

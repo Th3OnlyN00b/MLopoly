@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Monopoly {
-    public class ElectricCompanySpace : Space {
+    public class ElectricCompanySpace : Buyable {
 
         public int cost = 150;
         public int mortgage = 75;
@@ -11,27 +11,27 @@ namespace Monopoly {
         public ElectricCompanySpace(string name, int ID) : base(name, ID) {
         }
 
-        public int Buy(Player player) {
+        override public int Buy(Player player) {
             owner = player;
             owner.utilsOwned++;
             owner.money = owner.money - cost;
             return cost;
         }
 
-        public int Mortgage() {
+        override public int Mortgage() {
             isMortgaged = true;
             owner.money = owner.money + mortgage;
             return mortgage;
         }
 
-        public int BuyBack() {
+        override public int BuyBack() {
             isMortgaged = false;
             int BuyCost = (int)(mortgage * 1.1);
             owner.money = owner.money - BuyCost;
             return BuyCost;
         }
 
-        public int ChargeRent(Player player, int roll) {
+        override public int ChargeRent(Player player, int roll) {
             int rentCost;
             if (owner.utilsOwned == 1) {
                 rentCost = 4 * roll;
@@ -44,8 +44,41 @@ namespace Monopoly {
             return rentCost;
         }
 
-        public void Trade(Player player) {
+        override public int Handle(Player player, int roll) {
+            //if unowned
+            if (owner == null) {
+                bool purchase = false;
+                //TODO offer to buy
+                //Player buys it
+                if (purchase) {
+                    Buy(player);
+                    return 0;
+                }
+                //Auction needs to happen
+                else {
+                    return 1;
+                }
+            }
+            //if owned
+            else {
+                //if not owned by player
+                if (owner != player) {
+                    ChargeRent(player, roll);
+                    return 0;
+                }
+                //if owned by player
+                else {
+                    return 0;
+                }
+            }
+        }
+
+        override public void Trade(Player player) {
             owner = player;
+        }
+
+        override public int getPrice() {
+            return price;
         }
     }
 }

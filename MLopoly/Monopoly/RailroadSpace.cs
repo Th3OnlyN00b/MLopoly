@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Monopoly {
-    public class RailroadSpace : Space {
+    public class RailroadSpace : Buyable {
 
         public int price = 200;
         public int mortgage = 100;
@@ -11,27 +11,27 @@ namespace Monopoly {
         public RailroadSpace(string name, int ID) : base(name, ID) {
         }
 
-        public int Buy(Player player) {
+        override public int Buy(Player player) {
             owner = player;
             owner.railroadsOwned++;
             owner.money = owner.money - price;
             return price;
         }
 
-        public int Mortgage() {
+        override public int Mortgage() {
             owner.money = owner.money + mortgage;
             isMortgaged = true;
             return mortgage;
         }
 
-        public int BuyBack() {
+        override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
             owner.money = owner.money - buyCost;
             isMortgaged = false;
             return buyCost;
         }
 
-        public int ChargeRent(Player player) {
+        override public int ChargeRent(Player player, int roll) {
             int cost = 0;
             switch (owner.railroadsOwned){
                 case 1:
@@ -52,8 +52,12 @@ namespace Monopoly {
             return cost;
         }
 
-        public void Trade(Player player) {
+        override public void Trade(Player player) {
             owner = player;
+        }
+
+        public override int getPrice() {
+            return price;
         }
     }
 }

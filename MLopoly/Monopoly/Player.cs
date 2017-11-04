@@ -20,7 +20,12 @@ namespace Monopoly {
             this.PlayerNumber = ID;
         }
 
-
+        public bool getBid(int pos, Board board, int lastBid, out int bid) {
+            Buyable spot = (Buyable)(board.Spaces[pos]);
+            //TODO get bid.
+            bid = lastBid;
+            return true;
+        }
     }
 }
 

@@ -10,5 +10,7 @@ namespace Monopoly {
             this.name = name;
             this.ID = ID;
         }
+
+        public abstract int Handle(Player curPlayer, int roll);
     }
 }

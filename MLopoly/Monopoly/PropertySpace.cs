@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Monopoly {
-    public class PropertySpace : Space {
+    public class PropertySpace : Buyable {
 
         public int price;
         public int mortgage;
@@ -24,19 +24,19 @@ namespace Monopoly {
             this.housePrice = housePrice;
         }
 
-        public int Buy(Player player) {
+        override public int Buy(Player player) {
             owner = player;
             owner.money = owner.money - price;
             return price;
         }
 
-        public int Mortgage() {
+        override public int Mortgage() {
             owner.money = owner.money + mortgage;
             isMortgaged = true;
             return mortgage;
         }
 
-        public int BuyBack() {
+        override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
             owner.money = owner.money - buyCost;
             isMortgaged = false;
@@ -56,16 +56,19 @@ namespace Monopoly {
             return sellPrice;
         }
         
-        public int ChargeRent(Player player) {
+        override public int ChargeRent(Player player, int roll) {
             int rentCharged = (houses[houseCount]);
             player.money = player.money - rentCharged;
             owner.money = owner.money + rentCharged;
             return rentCharged;
         }
 
-        public void Trade(Player player) {
+        override public void Trade(Player player) {
             owner = player;
         }
 
+        public override int getPrice() {
+            return price;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Monopoly {
         public int againCount = 0;
         public int jailCount = 0;
         public bool again = false;
+        public Deck chanceDeck = new Deck();
 
         public Game() {
             Running = true;
@@ -38,9 +39,27 @@ namespace Monopoly {
                         checkAgain(curPlayer, die1, die2);
                         //Move Player
                         board.MovePlayer(curPlayer, (die1 + die2));
-                        switch (board.Spaces[curPlayer.position]) {
-                            case
+                        //handle movement based on space
+                        int action = board.Spaces[curPlayer.position].Handle(curPlayer, (die1 + die2));
+                        if(action == 1) {
+                            //bidding system:
+                            int lastBid = 0;
+                            Buyable temp = (Buyable)(board.Spaces[curPlayer.position]);
+                            int curBid = temp.getPrice();
+                            for (int i = 0; lastBid < curBid; i = ((i % 4) + 1)) {
+                                lastBid = curBid;
+                                //TODO: get a bid from each player
+                                if(players[i].getBid(curPlayer.position, board, lastBid, out int bid)) {
+
+                                }
                             }
+                        }
+                        if(action == 2) {
+                            chanceDeck.use(curPlayer, board);
+                        }
+                        //if(action == 3) {
+                        //   CommunityChest(curPlayer, board);
+                        //}
                     }
                     again = false;
                     againCount = 0;
