@@ -62,6 +62,11 @@ namespace Monopoly {
                             int highestBid = curBid;
                             int highestPlayer = -1;
                             for (int i = 0; lastBid < curBid; i = ((i + 1) % 4)) {
+                                if(players[i].inGame == false){
+                                    i++;
+                                    continue;
+                                }
+                                Console.WriteLine("Player " + i + " turn to bid");
                                 lastBid = curBid;
                                 Console.WriteLine("LastBid = " + lastBid);
                                 //TODO: get a bid from each player
