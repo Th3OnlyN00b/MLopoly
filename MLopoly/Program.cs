@@ -24,7 +24,7 @@ namespace MLopoly {
             //Application.Run(b);
             b.Activate();
             b.Show();
-            b.BoardGUI_Paint(null, null);
+            b.Tick();
             game.Run(b);
         }
 

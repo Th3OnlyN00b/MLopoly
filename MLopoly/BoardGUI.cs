@@ -58,6 +58,7 @@ namespace MLopoly {
                 formGraphics.DrawString(game.board.Spaces[i].name, new Font(FontFamily.GenericSansSerif, 7.0F, FontStyle.Bold), new SolidBrush(Color.DarkSlateGray), rectangles[i].X, rectangles[i].Y);
             }
             for(int i = 0; i < 4; i++) {
+                if (game.players[i].inGame == false) continue;
                 int pos = game.players[i].position;
                 Rectangle r = rectangles[pos];
                 Rectangle n = new Rectangle();

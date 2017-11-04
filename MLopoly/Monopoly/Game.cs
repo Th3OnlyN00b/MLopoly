@@ -61,12 +61,12 @@ namespace Monopoly {
                         checkAgain(curPlayer, die1, die2);
                         //Move Player
                         board.MovePlayer(curPlayer, (die1 + die2));
-                        b.BoardGUI_Paint(null, null);
+                        b.Tick();
                         Console.WriteLine("You landed on " + board.Spaces[curPlayer.position].name);
                         Console.WriteLine();
                         //handle movement based on space
                         int action = board.Spaces[curPlayer.position].Handle(curPlayer, (die1 + die2));
-                        b.BoardGUI_Paint(null, null);
+                        b.Tick();
                         if (action == 1) {
                             //bidding system:
                             int lastBid = 0;
@@ -119,7 +119,7 @@ namespace Monopoly {
                     again = true;
                     againCount = 0;
 
-                    b.BoardGUI_Paint(null, null);
+                    b.Tick();
                 }
             }
             foreach(Player p in players) {
