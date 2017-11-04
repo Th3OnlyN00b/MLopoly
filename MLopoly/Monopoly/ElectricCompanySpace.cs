@@ -41,6 +41,7 @@ namespace Monopoly {
             }
             player.money = player.money - rentCost;
             owner.money = owner.money + rentCost;
+            return rentCost;
         }
 
         public void Trade(Player player) {

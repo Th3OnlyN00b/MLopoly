@@ -32,19 +32,7 @@ namespace Monopoly {
                         }
                         //check to see if roll gives second turn
                         else {
-                            if (die1 == die2) {
-                                again = true;
-                                againCount++;
-                                //if they roll double 3 times they go to jail.
-                                if(againCount == 3) {
-                                    curPlayer.position = 10;
-                                    break;
-                                }
-                            }
-                            else {
-                                again = false;
-                                againCount = 0;
-                            }
+                            checkAgain(die1, die2);
                         }
 
                         curPlayer.position = curPlayer.position + (die1 + die2);
@@ -57,6 +45,22 @@ namespace Monopoly {
             }
         }
 
+        public bool checkAgain(int die1, int die2) {
+            if (die1 == die2) {
+                again = true;
+                againCount++;
+                //if they roll double 3 times they go to jail.
+                if (againCount == 3) {
+                    curPlayer.position = 10;
+                    break;
+                }
+            }
+            else {
+                again = false;
+                againCount = 0;
+            }
+        }
+
         public void handleJail(Player curPlayer) {
             //TODO Offer Payout and get out of jail card (if possible)
             bool payOut = false;
@@ -65,19 +69,7 @@ namespace Monopoly {
             if (jailCard) {
                 curPlayer.position = curPlayer.position + (die1 + die2);
                 //handle doubles normally
-                if (die1 == die2) {
-                    again = true;
-                    againCount++;
-                    //if they roll double 3 times they go to jail.
-                    if (againCount == 3) {
-                        curPlayer.position = 10;
-                        break;
-                    }
-                }
-                else {
-                    again = false;
-                    againCount = 0;
-                }
+                checkAgain();
             }
             else {
                 //if player pays
