@@ -4,7 +4,6 @@ namespace Monopoly {
 
     public class Game {
 
-        public List<Player> players { get; set; }
         public bool Running { get; set; }
         public Player[] players;
         public Board board = new Board();
@@ -20,10 +19,8 @@ namespace Monopoly {
             while(Running) {
                 foreach(Player curPlayer in players) {
                     int dieResult = RollDice();
-                    Space curSpace = board.MovePlayer(players, dieResult);
+                    Space curSpace = board.MovePlayer(curPlayer, dieResult);
                     if(curSpace is PropertySpace) {
-
-                    } else if(curSpace is TaxSpace) {
 
                     }
                     
