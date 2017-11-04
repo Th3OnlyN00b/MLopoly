@@ -49,7 +49,7 @@ namespace Monopoly {
         public ChanceCard DrawChanceCard(Player player, Player[] curPlayers) {
             ChanceCard cardDrawn = ChanceCards[ChanceCardIndex++];
             cardDrawn.Use(player, curPlayers);
-            if (ChanceCardIndex == 16){
+            if (ChanceCardIndex <= 16){
                 ChanceCardIndex = 0;
                 ShuffleChanceCards();
             }
@@ -57,9 +57,9 @@ namespace Monopoly {
         }
 
         public CommunityChestCard DrawCommunityChestCard(Player player, Player[] curPlayers) {
-            CommunityChestCard cardDrawn = CommunityChestCards[ChanceCardIndex++];
+            CommunityChestCard cardDrawn = CommunityChestCards[CommunityChestCardIndex++];
             cardDrawn.Use(player, curPlayers);
-            if (CommunityChestCardIndex == 17) {
+            if (CommunityChestCardIndex <= 17) {
                 CommunityChestCardIndex = 0;
                 ShuffleCommunityChestCards();
             }

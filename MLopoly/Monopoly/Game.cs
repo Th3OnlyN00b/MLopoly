@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Monopoly {
 
@@ -9,7 +11,6 @@ namespace Monopoly {
         public Board board = new Board();
         private static Random rand = new Random();
         public int againCount = 0;
-        public int jailCount = 0;
         public bool again = true;
         public Deck deck;
 
@@ -70,11 +71,12 @@ namespace Monopoly {
                             int curBid = temp.GetPrice();
                             int highestBid = curBid;
                             int highestPlayer = -1;
-                            for (int i = 0; lastBid < curBid || i != highestPlayer; i = ((i + 1) % 4)) {
+                            int attempt = playInGame();
+                            for (int i = 0; (lastBid < curBid || i != highestPlayer) && attempt > 0; i = ((i + 1) % 4)) {
                                 if(players[i].inGame == false){
-                                    i++;
                                     continue;
                                 }
+                                attempt--;
                                 Console.WriteLine();
                                 Console.WriteLine("Player " + i + " turn to bid");
                                 lastBid = curBid;
@@ -87,9 +89,9 @@ namespace Monopoly {
                                 }
                                 else{
                                     Console.WriteLine("Enter your bid for " + board.Spaces[curPlayer.position].name);
-                                    curBid = int.Parse(Console.ReadLine());
+                                    curBid = 250;//int.Parse(Console.ReadLine());
                                 }
-                                Console.WriteLine("curBid " + curBid);
+                                ////Console.WriteLine("curBid " + curBid);
                                 if(curBid > highestBid){
                                     highestPlayer = i;
                                     highestBid = curBid;
@@ -112,6 +114,11 @@ namespace Monopoly {
                     }
                     again = true;
                     againCount = 0;
+                }
+            }
+            foreach(Player p in players) {
+                if (p.inGame) {
+                    Console.WriteLine("Player " + p.PlayerNumber + " wins!");
                 }
             }
         }
@@ -145,24 +152,227 @@ namespace Monopoly {
             else{Console.WriteLine();}
             int exit = -1;
             while(true){
+                Console.WriteLine("Player balence: $" + curPlayer.money);
+                Console.WriteLine();
                 Console.WriteLine("1: Buy houses for your properties");
                 Console.WriteLine("2: Sell houses on your properties");
                 Console.WriteLine("3: Mortgage your properties");
                 Console.WriteLine("4: Buy back your properties");
                 Console.WriteLine("5: Exit");
-                exit = int.Parse(Console.ReadLine());
+                exit = 5; //int.Parse(Console.ReadLine());
+                Console.WriteLine();
                 if(exit == 5){break;}
+                //BuyBack
+                if (exit == 4) {
+                    List<Buyable> spList = new List<Buyable>();
+                    foreach (Space sp in board.Spaces) {
+                        if ((sp is Buyable space) && space.IsMortgaged && space.Owner == curPlayer) {
+                            spList.Add(space);
+                        }
+                    }
+                    bool esc = false;
+                    int escape = -1;
+                    while (!esc) {
+                        int k = 0;
+                        foreach (Buyable sp in spList) {
+                            Console.WriteLine(k + ": " + sp.name + " with a cost to buy back of " + (sp.GetPrice()/2)*1.1);
+                            k++;
+                        }
+                        Console.WriteLine(k + ": Exit");
+                        Console.WriteLine();
+                        Console.WriteLine("Enter an int for your selection");
+                        escape = int.Parse(Console.ReadLine());
+                        if(escape == k) {
+                            esc = true;
+                        }
+                        else {
+                            Buyable a = spList[escape];
+                            spList.RemoveAt(escape);
+                            a.BuyBack();
+                        }
+                    }
+                } //end buyback
+                if(exit == 3) {
+                    List<Buyable> spList = new List<Buyable>();
+                    foreach (Space sp in board.Spaces) {
+                        if ((sp is Buyable space) && !space.IsMortgaged && space.Owner == curPlayer) {
+                            if(space is PropertySpace s && s.houseCount > 0) {
+                                continue;
+                            }
+                            spList.Add(space);
+                        }
+                    }
+                    bool esc = false;
+                    int escape = -1;
+                    while (!esc) {
+                        int k = 0;
+                        foreach (Buyable sp in spList) {
+                            Console.WriteLine(k + ": " + sp.name + " with mortgage payment of " + (sp.GetPrice() / 2));
+                            k++;
+                        }
+                        Console.WriteLine(k + ": Exit");
+                        Console.WriteLine();
+                        Console.WriteLine("Enter an int for your selection");
+                        escape = int.Parse(Console.ReadLine());
+                        if (escape == k) {
+                            esc = true;
+                        }
+                        else {
+                            Buyable a = spList[escape];
+                            spList.RemoveAt(escape);
+                            a.Mortgage();
+                        }
+                    }
+                } //end mortgage
+                if(exit == 2) { //sell houses
+                    List<PropertySpace> spList = new List<PropertySpace>();
+                    foreach (Space sp in board.Spaces) {
+                        if ((sp is PropertySpace space) && space.houseCount > 0) {
+                            spList.Add(space);
+                        }
+                    }
+                    bool esc = false;
+                    int escape = -1;
+                    while (!esc) {
+                        int k = 0;
+                        foreach (PropertySpace sp in spList) {
+                            if (sp.houseCount > 0) {
+                                Console.WriteLine(k + ": " + sp.name + " with " + sp.houseCount + " houses for sale at $" + (sp.housePrice / 2));
+                                k++;
+                            }
+                        }
+                        Console.WriteLine(k + ": Exit");
+                        Console.WriteLine();
+                        Console.WriteLine("Enter an int for your selection");
+                        escape = int.Parse(Console.ReadLine());
+                        if (escape == k) {
+                            esc = true;
+                        }
+                        else {
+                            PropertySpace a = spList[escape];
+                            if (a.houseCount == 1) {
+                                spList.RemoveAt(escape);
+                            }
+                            a.SellHouse();
+                        }
+                    }
+                } //end sell houses
+                if(exit == 1) {
+                    List<PropertySpace> spList = new List<PropertySpace>();
+                    foreach (Space sp in board.Spaces) {
+                        if ((sp is PropertySpace space) && space.houseCount < 5 && curPlayer == space.Owner && ownsMonopoly(curPlayer, space, board)) {
+                            spList.Add(space);
+                        }
+                    }
+                    bool esc = false;
+                    int escape = -1;
+                    while (!esc) {
+                        int k = 0;
+                        foreach (PropertySpace sp in spList) {
+                            if (sp.houseCount < 5) {
+                                Console.WriteLine(k + ": " + sp.name + " with " + sp.houseCount + " houses at a cost of $" + sp.housePrice);
+                                k++;
+                            }
+                        }
+                        Console.WriteLine(k + ": Exit");
+                        Console.WriteLine();
+                        Console.WriteLine("Enter an int for your selection");
+                        escape = int.Parse(Console.ReadLine());
+                        if (escape == k) {
+                            esc = true;
+                        }
+                        else {
+                            PropertySpace a = spList[escape];
+                            if (a.houseCount == 4) {
+                                spList.RemoveAt(escape);
+                            }
+                            a.AddHouse();
+                        }
+                    }
+                }
             }
+        }
+
+        public bool ownsMonopoly(Player player, PropertySpace prop, Board bored) {
+            if(prop.ID == 1 || prop.ID == 3) {
+                if(((PropertySpace)(board.Spaces[1])).Owner == ((PropertySpace)(board.Spaces[3])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 6 || prop.ID == 8 || prop.ID == 9) {
+                if (((PropertySpace)(board.Spaces[6])).Owner == ((PropertySpace)(board.Spaces[8])).Owner && ((PropertySpace)(board.Spaces[9])).Owner == ((PropertySpace)(board.Spaces[8])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 11 || prop.ID == 13 || prop.ID == 14) {
+                if (((PropertySpace)(board.Spaces[11])).Owner == ((PropertySpace)(board.Spaces[13])).Owner && ((PropertySpace)(board.Spaces[13])).Owner == ((PropertySpace)(board.Spaces[14])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 16 || prop.ID == 18 || prop.ID == 19) {
+                if (((PropertySpace)(board.Spaces[16])).Owner == ((PropertySpace)(board.Spaces[18])).Owner && ((PropertySpace)(board.Spaces[19])).Owner == ((PropertySpace)(board.Spaces[18])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 21 || prop.ID == 23 || prop.ID == 24) {
+                if (((PropertySpace)(board.Spaces[21])).Owner == ((PropertySpace)(board.Spaces[23])).Owner && ((PropertySpace)(board.Spaces[23])).Owner == ((PropertySpace)(board.Spaces[24])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 26 || prop.ID == 27 || prop.ID == 29) {
+                if (((PropertySpace)(board.Spaces[26])).Owner == ((PropertySpace)(board.Spaces[27])).Owner && ((PropertySpace)(board.Spaces[29])).Owner == ((PropertySpace)(board.Spaces[27])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 31 || prop.ID == 32 || prop.ID == 34) {
+                if (((PropertySpace)(board.Spaces[31])).Owner == ((PropertySpace)(board.Spaces[32])).Owner && ((PropertySpace)(board.Spaces[32])).Owner == ((PropertySpace)(board.Spaces[34])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prop.ID == 37 || prop.ID == 39) {
+                if (((PropertySpace)(board.Spaces[37])).Owner == ((PropertySpace)(board.Spaces[39])).Owner) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            return false;
         }
 
         public int playInGame(){
             int playCount = 0;
             for(int i = 0; i < 4; i++){
-                if(players[i].money < 0){
-                    players[i].inGame = false;
-                }
-                else{
-                    playCount++;
+                if (players[i].inGame) {
+                    if (players[i].money < 0) {
+                        Console.WriteLine("Player " + i + " has lost with a balence of $" + players[i].money);
+                        Console.ReadLine();
+                        players[i].inGame = false;
+                    }
+                    else {
+                        playCount++;
+                    }
                 }
             }
             return playCount;
@@ -211,13 +421,14 @@ namespace Monopoly {
                     }
                     //if they fail their turn is over.
                     else {
-                        if (jailCount == 3) {
+                        if (curPlayer.jailTries == 3) {
                             curPlayer.money = curPlayer.money - 500;
                             curPlayer.inJail = false;
                             board.MovePlayer(curPlayer, (die1 + die2));
+                            curPlayer.jailTries = 0;
                         }
                         else {
-                            jailCount++;
+                            curPlayer.jailTries++;
                         }
                     }
                 }
@@ -225,7 +436,12 @@ namespace Monopoly {
         }
 
         public bool gameOver() {
-            return false;
+            if (playInGame() == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         public static int RollDice() {
