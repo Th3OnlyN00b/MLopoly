@@ -9,7 +9,6 @@ namespace Monopoly {
         public int rent;
         public int houseCount = 0;
         public int housePrice;
-        public bool isMortgaged = false;
 
         public PropertySpace(string name, int ID, int price, int housePrice, int rent, int house1, int house2, int house3, int house4, int house5) : base(name, ID) {
             this.price = price;
@@ -31,14 +30,14 @@ namespace Monopoly {
 
         override public int Mortgage() {
             Owner.money = Owner.money + mortgage;
-            isMortgaged = true;
+            IsMortgaged = true;
             return mortgage;
         }
 
         override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
             Owner.money = Owner.money - buyCost;
-            isMortgaged = false;
+            IsMortgaged = false;
             return buyCost;
         }
 
