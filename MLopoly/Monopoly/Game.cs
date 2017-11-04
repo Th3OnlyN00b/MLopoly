@@ -17,7 +17,7 @@ namespace Monopoly {
             Running = true;
             players = new Player[] { new Player(0, false), new Player(1,true), new Player(2,true), new Player(3,true) };
             deck = new Deck(board);
-            Run();
+            //Run();
         }
 
         public void Run() {
