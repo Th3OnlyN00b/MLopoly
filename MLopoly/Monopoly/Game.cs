@@ -11,11 +11,12 @@ namespace Monopoly {
         public int againCount = 0;
         public int jailCount = 0;
         public bool again = false;
-        public Deck chanceDeck = new Deck();
+        public Deck chanceDeck;
 
         public Game() {
             Running = true;
             players = new Player[] { new Player(0), new Player(1), new Player(2), new Player(3) };
+            chanceDeck = new Deck(board);
             Run();
         }
 
@@ -55,7 +56,7 @@ namespace Monopoly {
                             }
                         }
                         if(action == 2) {
-                            chanceDeck.use(curPlayer, board);
+                            chanceDeck.Use(curPlayer);
                         }
                         //if(action == 3) {
                         //   CommunityChest(curPlayer, board);
