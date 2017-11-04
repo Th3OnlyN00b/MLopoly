@@ -89,9 +89,9 @@ namespace Monopoly {
                                 }
                                 else{
                                     Console.WriteLine("Enter your bid for " + board.Spaces[curPlayer.position].name);
-                                    curBid = 250;//int.Parse(Console.ReadLine());
+                                    curBid = int.Parse(Console.ReadLine());
                                 }
-                                ////Console.WriteLine("curBid " + curBid);
+                                Console.WriteLine("curBid " + curBid);
                                 if(curBid > highestBid){
                                     highestPlayer = i;
                                     highestBid = curBid;
@@ -159,7 +159,7 @@ namespace Monopoly {
                 Console.WriteLine("3: Mortgage your properties");
                 Console.WriteLine("4: Buy back your properties");
                 Console.WriteLine("5: Exit");
-                exit = 5; //int.Parse(Console.ReadLine());
+                exit = int.Parse(Console.ReadLine());
                 Console.WriteLine();
                 if(exit == 5){break;}
                 //BuyBack
@@ -397,11 +397,18 @@ namespace Monopoly {
 
         public void handleJail(Player curPlayer, int die1, int die2) {
             //TODO Offer Payout and get out of jail card (if possible)
+            bool jailCard = true;
             bool payOut = false;
-            bool jailCard = false;
+            if (curPlayer.getOutOfJailOwned > 0) {
+                jailCard = true;
+            }
+            else {
+                jailCard = false;
+            }
             //if player uses jail card
             if (jailCard) {
                 curPlayer.inJail = false;
+                curPlayer.getOutOfJailOwned--;
                 board.MovePlayer(curPlayer, (die1 + die2)); ;
                 //handle doubles normally
                 checkAgain(curPlayer, die1, die2);
