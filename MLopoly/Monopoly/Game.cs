@@ -11,12 +11,12 @@ namespace Monopoly {
         public int againCount = 0;
         public int jailCount = 0;
         public bool again = true;
-        public Deck chanceDeck;
+        public Deck deck;
 
         public Game() {
             Running = true;
             players = new Player[] { new Player(0, false), new Player(1,true), new Player(2,true), new Player(3,true) };
-            chanceDeck = new Deck(board);
+            deck = new Deck(board);
             Run();
         }
 
@@ -66,6 +66,7 @@ namespace Monopoly {
                                     i++;
                                     continue;
                                 }
+                                Console.WriteLine();
                                 Console.WriteLine("Player " + i + " turn to bid");
                                 lastBid = curBid;
                                 Console.WriteLine("LastBid = " + lastBid);
@@ -91,10 +92,12 @@ namespace Monopoly {
                             }
                         }
                         if(action == 2) {
-                            chanceDeck.DrawChanceCard(curPlayer, players);
+                            ChanceCard card = deck.DrawChanceCard(curPlayer, players);
+                            Console.WriteLine(card.Name);
                         }
                         if(action == 3) {
-                           chanceDeck.DrawCommunityChestCard(curPlayer, players);
+                            CommunityChestCard card = deck.DrawCommunityChestCard(curPlayer, players);
+                            Console.WriteLine(card.Name);
                         }
                         handlePossible(curPlayer);
                     }
@@ -212,7 +215,7 @@ namespace Monopoly {
         }
 
         public static int RollDice() {
-            int d1 = rand.Next(1, 6);
+            int d1 = rand.Next(1, 7);
             return d1;
         }
     }

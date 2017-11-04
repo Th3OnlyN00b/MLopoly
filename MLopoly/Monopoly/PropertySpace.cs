@@ -70,7 +70,18 @@ namespace Monopoly {
             //if unowned
             if(Owner == null) {
                 bool purchase = false;
+                if(curPlayer.isAI){
                 //TODO offer to buy
+                }
+                else{
+                    Console.WriteLine("Would you like to buy " + name + " for $" + price + "? Enter an integer");
+                    Console.WriteLine("1: Yes");
+                    Console.WriteLine("2: No");
+                    int ans = int.Parse(Console.ReadLine());
+                    if(ans == 1){
+                        purchase = true;
+                    }
+                }
                 //Player buys it
                 if (purchase) {
                     Buy(curPlayer);
@@ -82,7 +93,7 @@ namespace Monopoly {
                 }
             }
             //if owned
-            else {
+            else{
                 //if not owned by player
                 if(Owner != curPlayer) {
                     ChargeRent(curPlayer, roll);
