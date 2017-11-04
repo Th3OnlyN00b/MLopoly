@@ -9,6 +9,8 @@ namespace Monopoly {
         public int position;
         public int railroadsOwned;
         public int utilsOwned;
+        public int getOutOfJailOwned = 0;
+        public bool inJail = false;
 
         public Player(int ID) {
             money = 1500;

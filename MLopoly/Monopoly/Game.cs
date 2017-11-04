@@ -8,6 +8,9 @@ namespace Monopoly {
         public Player[] players;
         public Board board = new Board();
         Random rand = new Random();
+        public int againCount = 0;
+        public int jailCount = 0;
+        public bool again = false;
 
         public Game() {
             Running = true;
@@ -18,21 +21,93 @@ namespace Monopoly {
         public void Run() {
             while(Running) {
                 foreach(Player curPlayer in players) {
-                    int dieResult = RollDice();
-                    Space curSpace = board.MovePlayer(curPlayer, dieResult);
-                    if(curSpace is PropertySpace) {
+                    while (again) {
+                        //Roll Dice
+                        int die1 = RollDice();
+                        int die2 = RollDice();
 
+                        //Check if Jail and handle accordingly
+                        if (curPlayer.inJail) {
+                            handleJail(curPlayer);
+                        }
+                        //check to see if roll gives second turn
+                        else {
+                            if (die1 == die2) {
+                                again = true;
+                                againCount++;
+                                //if they roll double 3 times they go to jail.
+                                if(againCount == 3) {
+                                    curPlayer.position = 10;
+                                    break;
+                                }
+                            }
+                            else {
+                                again = false;
+                                againCount = 0;
+                            }
+                        }
+
+                        curPlayer.position = curPlayer.position + (die1 + die2);
+
+
+                        
                     }
-                    
+                    again = false;
+                }
+            }
+        }
+
+        public void handleJail(Player curPlayer) {
+            //TODO Offer Payout and get out of jail card (if possible)
+            bool payOut = false;
+            bool jailCard = false;
+            //if player uses jail card
+            if (jailCard) {
+                curPlayer.position = curPlayer.position + (die1 + die2);
+                //handle doubles normally
+                if (die1 == die2) {
+                    again = true;
+                    againCount++;
+                    //if they roll double 3 times they go to jail.
+                    if (againCount == 3) {
+                        curPlayer.position = 10;
+                        break;
+                    }
+                }
+                else {
+                    again = false;
+                    againCount = 0;
+                }
+            }
+            else {
+                //if player pays
+                if (payOut) {
+                    curPlayer.money = curPlayer.money - 500;
+                    curPlayer.position = curPlayer.position + (die1 + die2);
+                }
+                else {
+                    //if they succed in rolling out.
+                    if (die1 == die2) {
+                        curPlayer.position = curPlayer.position + (die1 + die2);
+                    }
+                    //if they fail their turn is over.
+                    else {
+                        if (jailCount == 3) {
+                            curPlayer.money = curPlayer.money - 500;
+                            curPlayer.position = curPlayer.postion + (die1 + die2);
+                        }
+                        else {
+                            jailCount++;
+                            break;
+                        }
+                    }
                 }
             }
         }
 
         public int RollDice() {
             int d1 = rand.Next(1, 6);
-            int d2 = rand.Next(1, 6);
-            // TODO Doubles = get second turn
-            return d1+d2;
+            return d1;
         }
     }
 
