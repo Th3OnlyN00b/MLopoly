@@ -10,7 +10,7 @@ namespace Monopoly {
 
         public ElectricCompanySpace(string name, int ID) : base(name, ID) {
         }
-
+         
         override public int Buy(Player player) {
             owner = player;
             owner.utilsOwned++;
