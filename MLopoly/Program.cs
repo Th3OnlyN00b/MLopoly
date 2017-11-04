@@ -23,8 +23,8 @@ namespace MLopoly {
             BoardGUI b = new BoardGUI(game);
             //Application.Run(b);
             b.Activate();
-            b.Show();
             b.Tick();
+            b.Show();
             game.Run(b);
         }
 
