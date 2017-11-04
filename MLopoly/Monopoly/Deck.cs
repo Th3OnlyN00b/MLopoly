@@ -1,14 +1,18 @@
-﻿namespace Monopoly {
+﻿using System;
+using System.Collections.Generic;
+
+namespace Monopoly {
     public class Deck {
         public Board board;
         public ChanceCard[] ChanceCards;
         public CommunityChestCard[] CommunityChestCards;
         private int ChanceCardIndex;
         private int CommunityChestCardIndex;
-
+        private Random rand;
 
         public Deck(Board board) {
             this.board = board;
+            rand = new Random();
             ChanceCards = new ChanceCard[] { new CH1(board), new CH2(board), new CH3(board), new CH4(board),
                                         new CH5(board), new CH6(board), new CH7(board), new CH8(board),
                                         new CH9(board), new CH10(board), new CH11(board), new CH12(board),
@@ -25,13 +29,21 @@
         }
 
         public void ShuffleChanceCards() {
-            ChanceCards = ChanceCards;
-            // TODO Add a shuffle function
+            for (int n = ChanceCards.Length - 1; n > 0; --n) {
+                int k = rand.Next(n + 1);
+                ChanceCard temp = ChanceCards[n];
+                ChanceCards[n] = ChanceCards[k];
+                ChanceCards[k] = temp;
+            }
         }
 
         public void ShuffleCommunityChestCards() {
-            CommunityChestCards = CommunityChestCards;
-            // TODO Add a shuffle function
+            for (int n = CommunityChestCards.Length - 1; n > 0; --n) {
+                int k = rand.Next(n + 1);
+                CommunityChestCard temp = CommunityChestCards[n];
+                CommunityChestCards[n] = CommunityChestCards[k];
+                CommunityChestCards[k] = temp;
+            }
         }
 
         public ChanceCard DrawChanceCard(Player player, Player[] curPlayers) {
