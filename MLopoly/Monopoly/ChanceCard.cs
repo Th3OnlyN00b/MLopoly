@@ -123,12 +123,13 @@ namespace Monopoly {
             Name = "Make general repairs on all your property–For each house pay $25–For each hotel $100";
         }
         public override void Use(Player player, Player[] players) {
-            foreach (PropertySpace space in board.Spaces) {
-                if (space.Owner == player) {
-                    if (space.houseCount == 5) player.money -= 100;
-                    else player.money -= space.houseCount * 25;
+            foreach (Space sp in board.Spaces) {
+                if (sp is PropertySpace space) {
+                    if (space.Owner == player) {
+                        if (space.houseCount == 5) player.money -= 100;
+                        else player.money -= space.houseCount * 25;
+                    }
                 }
-
             }
         }
     }

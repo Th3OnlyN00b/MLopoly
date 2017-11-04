@@ -5,7 +5,6 @@ namespace Monopoly {
 
         public int price = 150;
         public int mortgage = 75;
-        public bool isMortgaged = false;
 
         public ElectricCompanySpace(string name, int ID) : base(name, ID) {
         }
@@ -18,13 +17,13 @@ namespace Monopoly {
         }
 
         override public int Mortgage() {
-            isMortgaged = true;
+            IsMortgaged = true;
             Owner.money = Owner.money + mortgage;
             return mortgage;
         }
 
         override public int BuyBack() {
-            isMortgaged = false;
+            IsMortgaged = false;
             int BuyCost = (int)(mortgage * 1.1);
             Owner.money = Owner.money - BuyCost;
             return BuyCost;
@@ -47,7 +46,18 @@ namespace Monopoly {
             //if unowned
             if (Owner == null) {
                 bool purchase = false;
-                //TODO offer to buy
+                if (player.isAI) {
+                    //TODO offer to buy
+                }
+                else {
+                    Console.WriteLine("Would you like to buy " + name + " for $" + price + "? Enter an integer");
+                    Console.WriteLine("1: Yes");
+                    Console.WriteLine("2: No");
+                    int ans = int.Parse(Console.ReadLine());
+                    if (ans == 1) {
+                        purchase = true;
+                    }
+                }
                 //Player buys it
                 if (purchase) {
                     Buy(player);

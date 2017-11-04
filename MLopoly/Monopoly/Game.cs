@@ -31,8 +31,14 @@ namespace Monopoly {
                         continue;
                     }
                     while (again) {
+                        Console.WriteLine();
+                        Console.WriteLine("----------------------------------------------------------------------");
+                        Console.WriteLine("---------------------------Player " + j + "'s turn!---------------------------");
+                        Console.WriteLine("----------------------------------------------------------------------");
+                        Console.WriteLine();
                         Console.WriteLine("Player " + j + " wealth = " + players[j].money);
                         Console.WriteLine("Player " + j + " position = " + players[j].position);
+                        Console.WriteLine();
                         again = false;
                         //Roll Dice
                         int die1 = RollDice();
@@ -40,6 +46,7 @@ namespace Monopoly {
                         Console.WriteLine("Die 1 roll: " + die1);
                         Console.WriteLine("Die 2 roll: " + die2);
                         Console.WriteLine("Dice Roll for player " + j + ": " + (die1 + die2));
+                        Console.WriteLine();
                         //Check if Jail and handle accordingly
                         if (curPlayer.inJail) {
                             handleJail(curPlayer, die1, die2);
@@ -52,6 +59,8 @@ namespace Monopoly {
                         checkAgain(curPlayer, die1, die2);
                         //Move Player
                         board.MovePlayer(curPlayer, (die1 + die2));
+                        Console.WriteLine("You landed on " + board.Spaces[curPlayer.position].name);
+                        Console.WriteLine();
                         //handle movement based on space
                         int action = board.Spaces[curPlayer.position].Handle(curPlayer, (die1 + die2));
                         if(action == 1) {
@@ -61,7 +70,7 @@ namespace Monopoly {
                             int curBid = temp.GetPrice();
                             int highestBid = curBid;
                             int highestPlayer = -1;
-                            for (int i = 0; lastBid < curBid; i = ((i + 1) % 4)) {
+                            for (int i = 0; lastBid < curBid || i != highestPlayer; i = ((i + 1) % 4)) {
                                 if(players[i].inGame == false){
                                     i++;
                                     continue;
@@ -109,20 +118,25 @@ namespace Monopoly {
 
         public void handlePossible(Player curPlayer){
             Console.WriteLine("What would you like to do? Enter your choice as an integer.");
+            Console.WriteLine();
             Console.WriteLine("Current wealth: " + curPlayer.money);
+            Console.WriteLine();
             Console.Write("Current properties (5 houses means a hotel): ");
             //find properties
             int t = 0;
             foreach(Space sp in board.Spaces){
-                if(sp is PropertySpace space){
+                if(sp is Buyable space){
                     if(space.Owner == curPlayer){
                         t++;
-                        Console.Write(space.name + " which has " + space.houseCount + " houses and ");
-                        if(space.isMortgaged){
-                            Console.Write("is mortgaged; ");
+                        Console.Write(space.name);
+                        if (space is PropertySpace s) {
+                            Console.WriteLine(" which has " + s.houseCount + " houses");
+                        }
+                        if(space.IsMortgaged){
+                            Console.Write(" and is mortgaged; ");
                         }
                         else{
-                            Console.Write("is not mortgaged; ");
+                            Console.Write(" and is not mortgaged; ");
                         }
                     }
                 }

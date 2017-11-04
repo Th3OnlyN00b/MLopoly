@@ -9,6 +9,8 @@ namespace Monopoly {
 
         public Player Owner { get; set; }
 
+        public bool IsMortgaged { get; set; }
+
         public Buyable(string name, int ID) : base(name, ID) {
         }
 

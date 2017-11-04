@@ -5,7 +5,7 @@ namespace Monopoly {
 
         public int price = 200;
         public int mortgage = 100;
-        bool isMortgaged = false;
+        bool IsMortgaged = false;
 
         public RailroadSpace(string name, int ID) : base(name, ID) {
         }
@@ -19,14 +19,14 @@ namespace Monopoly {
 
         override public int Mortgage() {
             Owner.money = Owner.money + mortgage;
-            isMortgaged = true;
+            IsMortgaged = true;
             return mortgage;
         }
 
         override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
             Owner.money = Owner.money - buyCost;
-            isMortgaged = false;
+            IsMortgaged = false;
             return buyCost;
         }
 
@@ -57,9 +57,20 @@ namespace Monopoly {
 
         public override int Handle(Player curPlayer, int roll) {
             //if unowned
-            if(Owner == null) {
+            if (Owner == null) {
                 bool purchase = false;
-                //TODO offer to buy
+                if (curPlayer.isAI) {
+                    //TODO offer to buy
+                }
+                else {
+                    Console.WriteLine("Would you like to buy " + name + " for $" + price + "? Enter an integer");
+                    Console.WriteLine("1: Yes");
+                    Console.WriteLine("2: No");
+                    int ans = int.Parse(Console.ReadLine());
+                    if (ans == 1) {
+                        purchase = true;
+                    }
+                }
                 //Player buys it
                 if (purchase) {
                     Buy(curPlayer);
