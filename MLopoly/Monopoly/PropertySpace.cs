@@ -58,6 +58,9 @@ namespace Monopoly {
             int rentCharged = (houses[houseCount]);
             player.money = player.money - rentCharged;
             Owner.money = Owner.money + rentCharged;
+            if (rentCharged > 200) {
+                Console.ReadLine();
+            }
             return rentCharged;
         }
 

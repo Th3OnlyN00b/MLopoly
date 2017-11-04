@@ -10,6 +10,7 @@ namespace Monopoly {
         public int railroadsOwned;
         public int utilsOwned;
         public int getOutOfJailOwned = 0;
+        public int jailTries = 0;
         public bool inJail = false;
         public bool inGame = true;
         public bool isAI;

@@ -5,7 +5,6 @@ namespace Monopoly {
 
         public int price = 200;
         public int mortgage = 100;
-        bool IsMortgaged = false;
 
         public RailroadSpace(string name, int ID) : base(name, ID) {
         }
