@@ -29,10 +29,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Highlight;
+            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1433, 908);
             this.Name = "BoardGUI";
-            this.Text = "Form1";
+            this.Text = "Monopoly Viewer";
             this.ResumeLayout(false);
 
         }
