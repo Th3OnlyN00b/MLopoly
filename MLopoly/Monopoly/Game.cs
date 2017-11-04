@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLopoly;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ namespace Monopoly {
             //Run();
         }
 
-        public void Run() {
+        public void Run(BoardGUI b) {
             while (!gameOver()) {
                 Player curPlayer;
                 for(int j = 0; playInGame() > 1; j = (j+1)%4) {
@@ -60,11 +61,13 @@ namespace Monopoly {
                         checkAgain(curPlayer, die1, die2);
                         //Move Player
                         board.MovePlayer(curPlayer, (die1 + die2));
+                        b.BoardGUI_Paint(null, null);
                         Console.WriteLine("You landed on " + board.Spaces[curPlayer.position].name);
                         Console.WriteLine();
                         //handle movement based on space
                         int action = board.Spaces[curPlayer.position].Handle(curPlayer, (die1 + die2));
-                        if(action == 1) {
+                        b.BoardGUI_Paint(null, null);
+                        if (action == 1) {
                             //bidding system:
                             int lastBid = 0;
                             Buyable temp = (Buyable)(board.Spaces[curPlayer.position]);
@@ -91,6 +94,7 @@ namespace Monopoly {
                                     Console.WriteLine("Enter your bid for " + board.Spaces[curPlayer.position].name);
                                     curBid = int.Parse(Console.ReadLine());
                                 }
+                                b.BoardGUI_Paint(null, null);
                                 Console.WriteLine("curBid " + curBid);
                                 if(curBid > highestBid){
                                     highestPlayer = i;
@@ -114,6 +118,8 @@ namespace Monopoly {
                     }
                     again = true;
                     againCount = 0;
+
+                    b.BoardGUI_Paint(null, null);
                 }
             }
             foreach(Player p in players) {

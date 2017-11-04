@@ -21,9 +21,11 @@ namespace MLopoly {
 
             Game game = new Game();
             BoardGUI b = new BoardGUI(game);
-            Application.Run(b);
-
-            game.Run();
+            //Application.Run(b);
+            b.Activate();
+            b.Show();
+            b.BoardGUI_Paint(null, null);
+            game.Run(b);
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
