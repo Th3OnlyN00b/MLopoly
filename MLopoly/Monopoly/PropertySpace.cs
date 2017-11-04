@@ -59,7 +59,6 @@ namespace Monopoly {
             player.money = player.money - rentCharged;
             Owner.money = Owner.money + rentCharged;
             if (rentCharged > 200) {
-                Console.ReadLine();
             }
             return rentCharged;
         }
@@ -73,7 +72,10 @@ namespace Monopoly {
             if(Owner == null) {
                 bool purchase = false;
                 if(curPlayer.isAI){
-                //TODO offer to buy
+                    if (curPlayer.money > (price)) {
+                        Buy(curPlayer);
+                        return 0;
+                    }
                 }
                 else{
                     Console.WriteLine("Would you like to buy " + name + " for $" + price + "? Enter an integer");

@@ -14,10 +14,11 @@ namespace Monopoly {
         public int againCount = 0;
         public bool again = true;
         public Deck deck;
+        public bool beenDareDoneDat = false;
 
         public Game() {
             Running = true;
-            players = new Player[] { new Player(0, false), new Player(1,true), new Player(2,true), new Player(3,true) };
+            players = new Player[] {new Player(0, false), new Player(1,true), new Player(2,true), new Player(3,true) };
             deck = new Deck(board);
             //Run();
         }
@@ -86,8 +87,13 @@ namespace Monopoly {
                                 Console.WriteLine("LastBid = " + lastBid);
                                 //TODO: get a bid from each player
                                 if(players[i].isAI){
-                                    if(players[i].getBid(curPlayer.position, board, lastBid, out int bid)) {
-
+                                    int ech = rand.Next(1, 6);
+                                    int bech = ((Buyable)(board.Spaces[curPlayer.position])).GetPrice();
+                                    int blech = bech + (int)((double)((double)bech * ((double)ech / (((double)ech * 2) + 1))));
+                                    Console.WriteLine(bech);
+                                    Console.WriteLine(blech);
+                                    if (curBid < blech) {
+                                        curBid = curBid + rand.Next(4, 10);
                                     }
                                 }
                                 else{
@@ -97,6 +103,7 @@ namespace Monopoly {
                                 b.BoardGUI_Paint(null, null);
                                 Console.WriteLine("curBid " + curBid);
                                 if(curBid > highestBid){
+                                    attempt = 4;
                                     highestPlayer = i;
                                     highestBid = curBid;
                                 }
@@ -157,6 +164,7 @@ namespace Monopoly {
             if(t == 0){Console.WriteLine("None!");}
             else{Console.WriteLine();}
             int exit = -1;
+            beenDareDoneDat = false;
             while(true){
                 Console.WriteLine("Player balence: $" + curPlayer.money);
                 Console.WriteLine();
@@ -165,7 +173,26 @@ namespace Monopoly {
                 Console.WriteLine("3: Mortgage your properties");
                 Console.WriteLine("4: Buy back your properties");
                 Console.WriteLine("5: Exit");
-                exit = int.Parse(Console.ReadLine());
+                if (!curPlayer.isAI) {
+                    exit = int.Parse(Console.ReadLine());
+                }
+                else {
+                    if (beenDareDoneDat) {
+                        exit = 5;
+                    }
+                    else if(curPlayer.money > 400) {
+                        exit = 1;
+                    }
+                    else if(curPlayer.money < 0) {
+                        exit = 3;
+                    }
+                    else if(curPlayer.money > 200) {
+                        exit = 4;
+                    }
+                    else {
+                        exit = 5;
+                    }
+                }
                 Console.WriteLine();
                 if(exit == 5){break;}
                 //BuyBack
@@ -187,7 +214,17 @@ namespace Monopoly {
                         Console.WriteLine(k + ": Exit");
                         Console.WriteLine();
                         Console.WriteLine("Enter an int for your selection");
-                        escape = int.Parse(Console.ReadLine());
+                        if (curPlayer.isAI) {
+                            if (curPlayer.money > 200) {
+                                escape = 0;
+                            }
+                            else {
+                                escape = k;
+                            }
+                        }
+                        else {
+                            escape = int.Parse(Console.ReadLine());
+                        }
                         if(escape == k) {
                             esc = true;
                         }
@@ -219,7 +256,17 @@ namespace Monopoly {
                         Console.WriteLine(k + ": Exit");
                         Console.WriteLine();
                         Console.WriteLine("Enter an int for your selection");
-                        escape = int.Parse(Console.ReadLine());
+                        if (curPlayer.isAI) {
+                            if (curPlayer.money < 0) {
+                                escape = 0;
+                            }
+                            else {
+                                escape = k;
+                            }
+                        }
+                        else {
+                            escape = int.Parse(Console.ReadLine());
+                        }
                         if (escape == k) {
                             esc = true;
                         }
@@ -283,7 +330,17 @@ namespace Monopoly {
                         Console.WriteLine(k + ": Exit");
                         Console.WriteLine();
                         Console.WriteLine("Enter an int for your selection");
-                        escape = int.Parse(Console.ReadLine());
+                        if (curPlayer.isAI) {
+                            if (curPlayer.money > 400) {
+                                escape = 0;
+                            }
+                            else {
+                                escape = k;
+                            }
+                        }
+                        else {
+                            escape = int.Parse(Console.ReadLine());
+                        }
                         if (escape == k) {
                             esc = true;
                         }
@@ -296,6 +353,7 @@ namespace Monopoly {
                         }
                     }
                 }
+                beenDareDoneDat = true;
             }
         }
 

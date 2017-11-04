@@ -47,7 +47,10 @@ namespace Monopoly {
             if (Owner == null) {
                 bool purchase = false;
                 if (player.isAI) {
-                    //TODO offer to buy
+                    if (player.money > (price)) {
+                        Buy(player);
+                        return 0;
+                    }
                 }
                 else {
                     Console.WriteLine("Would you like to buy " + name + " for $" + price + "? Enter an integer");
