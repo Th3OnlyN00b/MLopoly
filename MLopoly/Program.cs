@@ -12,10 +12,13 @@ namespace MLopoly {
 
         [STAThread]
         static void Main() {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new BoardGUI());
-            Game hi = new Game();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            Game game = new Game();
+            BoardGUI b = new BoardGUI(game);
+            Application.Run(b);
+            game.Run();
         }
     }
 }

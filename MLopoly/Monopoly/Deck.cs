@@ -29,7 +29,7 @@ namespace Monopoly {
         }
 
         public void ShuffleChanceCards() {
-            for (int n = ChanceCards.Length - 1; n > 0; --n) {
+            for (int n = ChanceCards.Length - 1; n > 0; n--) {
                 int k = rand.Next(n + 1);
                 ChanceCard temp = ChanceCards[n];
                 ChanceCards[n] = ChanceCards[k];
@@ -38,7 +38,7 @@ namespace Monopoly {
         }
 
         public void ShuffleCommunityChestCards() {
-            for (int n = CommunityChestCards.Length - 1; n > 0; --n) {
+            for (int n = CommunityChestCards.Length - 1; n > 0; n--) {
                 int k = rand.Next(n + 1);
                 CommunityChestCard temp = CommunityChestCards[n];
                 CommunityChestCards[n] = CommunityChestCards[k];
