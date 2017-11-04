@@ -20,7 +20,7 @@ namespace Monopoly {
         }
 
         public void Reset() {
-            Spaces[0] = new GoSpace("go", 0);
+            Spaces[0] = new GoSpace("Go", 0);
             Spaces[1] = new PropertySpace("Mediteranian Avenue", 1, 60, 50, 2, 10, 30, 90, 160, 250);
             Spaces[2] = new CommunityChestSpace("Community Chest", 2);
             Spaces[3] = new PropertySpace("Baltic Avenue", 3, 60, 50, 4, 20, 60, 180, 320, 450);

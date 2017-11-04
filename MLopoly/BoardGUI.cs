@@ -20,7 +20,7 @@ namespace MLopoly {
             BoardGUI_Paint(null, null);
         }
 
-        private void BoardGUI_Load(object sender, EventArgs e) {
+        public void BoardGUI_Load(object sender, EventArgs e) {
             int posIndex = 0;
             while (posIndex < 11) {
                 int x = (Width / 13 * (11 - (posIndex % 11)));
@@ -55,7 +55,15 @@ namespace MLopoly {
             for (int i = 0; i < 40; i++) {
                 formGraphics.FillRectangle(new SolidBrush(Color.LightCoral), rectangles[i]);
                 formGraphics.DrawRectangle(new Pen(Color.Gray, 3), rectangles[i]);
-                formGraphics.DrawString(game.board.Spaces[i].name, new Font(FontFamily.GenericSansSerif, 7.0F, FontStyle.Bold), new SolidBrush(Color.DarkSlateGray), rectangles[i].X, rectangles[i].Y);
+                if(game.board.Spaces[i] is PropertySpace ps) {
+                    string display = game.board.Spaces[i].name+"\n";
+                    if (ps.houseCount > 0) display += "Houses: " + ps.houseCount;
+                    if (ps.Owner != null) display += "\nOwned by Player " + ps.Owner.PlayerNumber;
+                    formGraphics.DrawString(display, new Font(FontFamily.GenericSansSerif, 7.0F, FontStyle.Bold), new SolidBrush(Color.DarkSlateGray), rectangles[i].X, rectangles[i].Y);
+                } else {
+                    formGraphics.DrawString(game.board.Spaces[i].name, new Font(FontFamily.GenericSansSerif, 7.0F, FontStyle.Bold), new SolidBrush(Color.DarkSlateGray), rectangles[i].X, rectangles[i].Y);
+
+                }
             }
             for(int i = 0; i < 4; i++) {
                 if (game.players[i].inGame == false) continue;
@@ -66,8 +74,8 @@ namespace MLopoly {
                 n.Width = 230 / 5;
                 n.Height = 155 / 4;
                 switch (i) {
-                    case 0: n.X = r.X + 20; n.Y = r.Y + 20; c= Color.Cyan;  break;
-                    case 1: n.X = r.X + r.Width - 60; n.Y = r.Y + 20; c = Color.Crimson;  break;
+                    case 0: n.X = r.X + 20; n.Y = r.Y + 60; c= Color.Cyan;  break;
+                    case 1: n.X = r.X + r.Width - 60; n.Y = r.Y + 60; c = Color.Crimson;  break;
                     case 2: n.X = r.X + 20; n.Y = r.Y + r.Height - 50; c = Color.DarkSlateBlue; break;
                     case 3: n.X = r.X + r.Width - 60; n.Y = r.Y + r.Height - 50; c = Color.DarkGreen; break;
                 }
