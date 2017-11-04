@@ -8,6 +8,7 @@ namespace Monopoly {
         public int[] houses = new int[6];
         public int rent;
         public int houseCount = 0;
+        public int housePrice;
         public bool isMortgaged = false;
         public Player owner;
 
@@ -20,11 +21,13 @@ namespace Monopoly {
             houses[3] = house3;
             houses[4] = house4;
             houses[5] = house5;
+            this.housePrice = housePrice;
         }
 
         public int Buy(Player player) {
             owner = player;
             owner.money = owner.money - price;
+            return price;
         }
 
         public int Mortgage() {
@@ -48,7 +51,9 @@ namespace Monopoly {
 
         public int SellHouse() {
             houseCount--;
-            owner.money = owner.money + (housePrice / 2);
+            int sellPrice = (housePrice / 2);
+            owner.money = owner.money + sellPrice;
+            return sellPrice;
         }
         
         public int ChargeRent(Player player) {
