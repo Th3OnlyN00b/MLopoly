@@ -15,14 +15,20 @@ namespace Monopoly {
 
         public Game() {
             Running = true;
-            players = new Player[] { new Player(0), new Player(1), new Player(2), new Player(3) };
+            players = new Player[] { new Player(0, true), new Player(1,true), new Player(2,true), new Player(3,true) };
             chanceDeck = new Deck(board);
             Run();
         }
 
         public void Run() {
             while (!gameOver()) {
-                foreach (Player curPlayer in players) {
+                Player curPlayer;
+                for(int j = 0; playInGame() > 1; j = (j%4) + 1) {
+                    curPlayer = players[j];
+                    //Check if player has lost yet
+                    if(!curPlayer.inGame){
+                        continue;
+                    }
                     while (again) {
                         //Roll Dice
                         int die1 = RollDice();
@@ -50,13 +56,19 @@ namespace Monopoly {
                             for (int i = 0; lastBid < curBid; i = ((i % 4) + 1)) {
                                 lastBid = curBid;
                                 //TODO: get a bid from each player
-                                if(players[i].getBid(curPlayer.position, board, lastBid, out int bid)) {
+                                if(players[i].isAI){
+                                    if(players[i].getBid(curPlayer.position, board, lastBid, out int bid)) {
 
+                                    }
+                                }
+                                else{
+                                    Console.WriteLine("Enter your bid for " + board.Spaces[curPlayer.position].name);
+                                    curBid = int.Parse(Console.ReadLine());
                                 }
                             }
                         }
                         if(action == 2) {
-                            chanceDeck.Use(curPlayer);
+                          //  chanceDeck.Use(curPlayer, players);
                         }
                         //if(action == 3) {
                         //   CommunityChest(curPlayer, board);
@@ -66,6 +78,19 @@ namespace Monopoly {
                     againCount = 0;
                 }
             }
+        }
+
+        public int playInGame(){
+            int playCount = 0;
+            for(int i = 0; i < 4; i++){
+                if(players[i].money < 0){
+                    players[i].inGame = false;
+                }
+                else{
+                    playCount++;
+                }
+            }
+            return playCount;
         }
 
         public void checkAgain(Player curPlayer, int die1, int die2) {

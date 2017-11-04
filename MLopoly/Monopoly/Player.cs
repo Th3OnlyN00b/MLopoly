@@ -11,9 +11,12 @@ namespace Monopoly {
         public int utilsOwned;
         public int getOutOfJailOwned = 0;
         public bool inJail = false;
+        public bool inGame = true;
+        public bool isAI;
 
-        public Player(int ID) {
+        public Player(int ID, bool AI) {
             money = 1500;
+            isAI = AI;
             position = 0;
             railroadsOwned = 0;
             utilsOwned = 0;
