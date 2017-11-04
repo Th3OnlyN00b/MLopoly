@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Monopoly;
 
 namespace MLopoly {
     class Program {
@@ -11,9 +12,10 @@ namespace MLopoly {
 
         [STAThread]
         static void Main() {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BoardGUI());
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new BoardGUI());
+            Game hi = new Game();
         }
     }
 }
