@@ -39,7 +39,7 @@ namespace Monopoly {
                         //Move Player
                         board.MovePlayer(curPlayer, (die1 + die2));
                         switch (board.Spaces[curPlayer.position]) {
-                            case
+                            //case
                             }
                     }
                     again = false;
