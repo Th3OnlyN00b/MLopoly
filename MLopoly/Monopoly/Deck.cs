@@ -34,20 +34,24 @@
             // TODO Add a shuffle function
         }
 
-        public void DrawChanceCard(Player player, Player[] curPlayers) {
-            ChanceCards[ChanceCardIndex++].Use(player, curPlayers);
+        public ChanceCard DrawChanceCard(Player player, Player[] curPlayers) {
+            ChanceCard cardDrawn = ChanceCards[ChanceCardIndex++];
+            cardDrawn.Use(player, curPlayers);
             if (ChanceCardIndex == 16){
                 ChanceCardIndex = 0;
                 ShuffleChanceCards();
             }
+            return cardDrawn;
         }
 
-        public void DrawCommunityChestCard(Player player, Player[] curPlayers) {
-            CommunityChestCards[ChanceCardIndex++].Use(player, curPlayers);
+        public CommunityChestCard DrawCommunityChestCard(Player player, Player[] curPlayers) {
+            CommunityChestCard cardDrawn = CommunityChestCards[ChanceCardIndex++];
+            cardDrawn.Use(player, curPlayers);
             if (CommunityChestCardIndex == 17) {
                 CommunityChestCardIndex = 0;
                 ShuffleCommunityChestCards();
             }
+            return cardDrawn;
         }
     }
 }

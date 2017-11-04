@@ -50,7 +50,7 @@
     <Compile Include="BoardGUI.Designer.cs">
       <DependentUpon>BoardGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommunityChestCard.cs" />
+    <Compile Include="Monopoly\CommunityChestCard.cs" />
     <Compile Include="Monopoly\Board.cs" />
     <Compile Include="Monopoly\Buyable.cs" />
     <Compile Include="Monopoly\ChanceCard.cs" />
