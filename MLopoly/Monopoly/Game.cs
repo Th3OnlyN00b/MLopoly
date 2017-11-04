@@ -7,7 +7,7 @@ namespace Monopoly {
         public bool Running { get; set; }
         public Player[] players;
         public Board board = new Board();
-        Random rand = new Random();
+        private static Random rand = new Random();
         public int againCount = 0;
         public int jailCount = 0;
         public bool again = false;
@@ -46,7 +46,7 @@ namespace Monopoly {
                             //bidding system:
                             int lastBid = 0;
                             Buyable temp = (Buyable)(board.Spaces[curPlayer.position]);
-                            int curBid = temp.getPrice();
+                            int curBid = temp.GetPrice();
                             for (int i = 0; lastBid < curBid; i = ((i % 4) + 1)) {
                                 lastBid = curBid;
                                 //TODO: get a bid from each player
@@ -127,7 +127,7 @@ namespace Monopoly {
             return false;
         }
 
-        public int RollDice() {
+        public static int RollDice() {
             int d1 = rand.Next(1, 6);
             return d1;
         }

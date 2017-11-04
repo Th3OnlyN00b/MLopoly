@@ -7,7 +7,8 @@
         }
 
         public void Use(Player player) {
-            //
+            ChanceCard CH1 = new CH1(board);
+            CH1.Use(player);
         }
     }
 }

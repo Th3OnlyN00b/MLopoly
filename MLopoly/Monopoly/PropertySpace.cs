@@ -10,7 +10,6 @@ namespace Monopoly {
         public int houseCount = 0;
         public int housePrice;
         public bool isMortgaged = false;
-        public Player owner;
 
         public PropertySpace(string name, int ID, int price, int housePrice, int rent, int house1, int house2, int house3, int house4, int house5) : base(name, ID) {
             this.price = price;
@@ -25,51 +24,51 @@ namespace Monopoly {
         }
 
         override public int Buy(Player player) {
-            owner = player;
-            owner.money = owner.money - price;
+            Owner = player;
+            Owner.money = Owner.money - price;
             return price;
         }
 
         override public int Mortgage() {
-            owner.money = owner.money + mortgage;
+            Owner.money = Owner.money + mortgage;
             isMortgaged = true;
             return mortgage;
         }
 
         override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
-            owner.money = owner.money - buyCost;
+            Owner.money = Owner.money - buyCost;
             isMortgaged = false;
             return buyCost;
         }
 
         public int AddHouse() {
             houseCount++;
-            owner.money = owner.money - housePrice;
+            Owner.money = Owner.money - housePrice;
             return houseCount;
         }
 
         public int SellHouse() {
             houseCount--;
             int sellPrice = (housePrice / 2);
-            owner.money = owner.money + sellPrice;
+            Owner.money = Owner.money + sellPrice;
             return sellPrice;
         }
         
         override public int ChargeRent(Player player, int roll) {
             int rentCharged = (houses[houseCount]);
             player.money = player.money - rentCharged;
-            owner.money = owner.money + rentCharged;
+            Owner.money = Owner.money + rentCharged;
             return rentCharged;
         }
 
         override public void Trade(Player player) {
-            owner = player;
+            Owner = player;
         }
 
         public override int Handle(Player curPlayer, int roll) {
             //if unowned
-            if(owner == null) {
+            if(Owner == null) {
                 bool purchase = false;
                 //TODO offer to buy
                 //Player buys it
@@ -85,7 +84,7 @@ namespace Monopoly {
             //if owned
             else {
                 //if not owned by player
-                if(owner != curPlayer) {
+                if(Owner != curPlayer) {
                     ChargeRent(curPlayer, roll);
                     return 0;
                 }
@@ -96,7 +95,7 @@ namespace Monopoly {
             }
         }
 
-        public override int getPrice() {
+        public override int GetPrice() {
             return price;
         }
 

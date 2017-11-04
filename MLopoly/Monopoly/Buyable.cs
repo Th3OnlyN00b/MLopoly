@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 namespace Monopoly {
     public abstract class Buyable : Space{
 
+        public Player Owner { get; set; }
+
         public Buyable(string name, int ID) : base(name, ID) {
         }
 
         public abstract int Buy(Player player);
 
-        public abstract int getPrice();
+        public abstract int GetPrice();
+        
 
         public abstract int Mortgage();
 

@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Monopoly\Board.cs" />
     <Compile Include="Monopoly\Buyable.cs" />
+    <Compile Include="Monopoly\ChanceCard.cs" />
     <Compile Include="Monopoly\ChanceSpace.cs" />
     <Compile Include="Monopoly\CommunityChestSpace.cs" />
     <Compile Include="Monopoly\Deck.cs" />

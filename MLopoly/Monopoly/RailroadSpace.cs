@@ -5,35 +5,34 @@ namespace Monopoly {
 
         public int price = 200;
         public int mortgage = 100;
-        public Player owner;
         bool isMortgaged = false;
 
         public RailroadSpace(string name, int ID) : base(name, ID) {
         }
 
         override public int Buy(Player player) {
-            owner = player;
-            owner.railroadsOwned++;
-            owner.money = owner.money - price;
+            Owner = player;
+            Owner.railroadsOwned++;
+            Owner.money = Owner.money - price;
             return price;
         }
 
         override public int Mortgage() {
-            owner.money = owner.money + mortgage;
+            Owner.money = Owner.money + mortgage;
             isMortgaged = true;
             return mortgage;
         }
 
         override public int BuyBack() {
             int buyCost = (int)(mortgage * 1.1);
-            owner.money = owner.money - buyCost;
+            Owner.money = Owner.money - buyCost;
             isMortgaged = false;
             return buyCost;
         }
 
         override public int ChargeRent(Player player, int roll) {
             int cost = 0;
-            switch (owner.railroadsOwned){
+            switch (Owner.railroadsOwned){
                 case 1:
                     cost = 25;
                     break;
@@ -48,17 +47,17 @@ namespace Monopoly {
                     break;
             }
             player.money = player.money - cost;
-            owner.money = owner.money + cost;
+            Owner.money = Owner.money + cost;
             return cost;
         }
 
         override public void Trade(Player player) {
-            owner = player;
+            Owner = player;
         }
 
         public override int Handle(Player curPlayer, int roll) {
             //if unowned
-            if(owner == null) {
+            if(Owner == null) {
                 bool purchase = false;
                 //TODO offer to buy
                 //Player buys it
@@ -74,7 +73,7 @@ namespace Monopoly {
             //if owned
             else {
                 //if not owned by player
-                if(owner != curPlayer) {
+                if(Owner != curPlayer) {
                     ChargeRent(curPlayer, roll);
                     return 0;
                 }
@@ -85,7 +84,7 @@ namespace Monopoly {
             }
         }
 
-        public override int getPrice() {
+        public override int GetPrice() {
             return price;
         }
     }
