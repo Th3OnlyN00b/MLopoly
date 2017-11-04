@@ -56,6 +56,35 @@ namespace Monopoly {
             owner = player;
         }
 
+        public override int Handle(Player curPlayer, int roll) {
+            //if unowned
+            if(owner == null) {
+                bool purchase = false;
+                //TODO offer to buy
+                //Player buys it
+                if (purchase) {
+                    Buy(player);
+                    return 0;
+                }
+                //Auction needs to happen
+                else {
+                    return 1;
+                }
+            }
+            //if owned
+            else {
+                //if not owned by player
+                if(owner != player) {
+                    ChargeRent(player, roll);
+                    return 0;
+                }
+                //if owned by player
+                else {
+                    return 0;
+                }
+            }
+        }
+
         public override int getPrice() {
             return price;
         }
